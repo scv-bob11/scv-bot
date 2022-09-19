@@ -64,6 +64,11 @@ class TwitterBot:
         return tweepy.Stream(self.api_key, self.api_secret, self.access_token, self.access_secret, stream_listener)
 
 
+    def clear_rules(self):
+        ids = list(map(lambda x: x.id, self.twitter_stream.get_rules().data))
+        self.twitter_stream.delete_rules(ids)
+
+
     def add_rules(self, rule):
         return self.twitter_stream.add_rules(tweepy.StreamRule(rule, tag=''))
 
