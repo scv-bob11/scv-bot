@@ -18,9 +18,8 @@ webhook = SyncWebhook.from_url("https://discord.com/api/webhooks/102138370992611
 
 
 class StreamingTwitter(tweepy.StreamingClient):
-    def __init__(self, bearer_token, discord_bot):
+    def __init__(self, bearer_token):
         super().__init__(bearer_token)
-        self.discord_bot = discord_bot
 
     
     def structure_tweet(self, data, includes):
@@ -52,7 +51,7 @@ class TwitterBot:
         self.bearer_token = copy(TWITTER_BEARER_TOKEN)
         self.twitter_api = self.get_twitter_api()
         self.twitter_client = tweepy.Client(self.bearer_token)
-        self.twitter_stream = StreamingTwitter(self.bearer_token, self)
+        self.twitter_stream = StreamingTwitter(self.bearer_token)
 
 
 
