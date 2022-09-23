@@ -20,6 +20,7 @@ webhook = SyncWebhook.from_url("https://discord.com/api/webhooks/102138370992611
 class StreamingTwitter(tweepy.StreamingClient):
     def __init__(self, bearer_token):
         super().__init__(bearer_token)
+        webhook.send('The bot is running!')
 
     
     def structure_tweet(self, data, includes):
@@ -35,10 +36,13 @@ class StreamingTwitter(tweepy.StreamingClient):
         return t_t
 
     def on_data(self, status):
-        status = json.loads(status)
-        t_t = self.structure_tweet(status['data'], status['includes'])
-        #pprint.pprint(t_t['url'])
-        webhook.send(t_t['url'])
+        try:
+            status = json.loads(status)
+            t_t = self.structure_tweet(status['data'], status['includes'])
+            #pprint.pprint(t_t['url'])
+            webhook.send(t_t['url'])
+        except:
+            webhook.send('The bot is dead..')
         
 
 
